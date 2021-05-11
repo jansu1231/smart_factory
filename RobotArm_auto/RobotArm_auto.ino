@@ -6,7 +6,7 @@ int Electromagnet = 2;
 
 void setup(){
   
-  myservo1.attach(7);   //핀 설정80
+  myservo1.attach(7);   //핀 설정
   myservo2.attach(8);
   myservo3.attach(9);
 
@@ -19,38 +19,38 @@ void setup(){
   Serial.begin(9600);
 }
 
+void Arm(int FR, int LR, int TB, int MG){  //로봇팔, 전자석
+  myservo1.write(FR);
+  delay (150);
+  myservo2.write(LR);
+  delay (150);
+  myservo3.write(TB);
+  delay (1000);
 
-void loop(){
-
-  if(Serial.available()){   //시리얼 통신이 들어오면
-    
-    int state1 = Serial.parseInt(); //시리얼통신으로 입력 받기
-    int state2 = Serial.parseInt();
-    int state3 = Serial.parseInt();
-    int input = Serial.parseInt();
-    
-    Veiw(state1,state2,state3,input);
-    
-      
-    myservo1.write(state1);
-    delay(500);
-    myservo2.write(state2);
-    delay(500);
-    myservo3.write(state3);
-    delay(1000);
-    
-    if(input == 1){   //마그넷
+  if(MG == 1){   //마그넷
       digitalWrite(Electromagnet, HIGH);
       delay(150);
-    }
-    else{
+    }else{
       digitalWrite(Electromagnet, LOW);
       delay(150);
-    }
 
-  }   
-   
+    }
 }
+
+void Start()
+{
+  Arm(80,30,115,1);
+}
+
+void Grap(){
+  Arm(80,30,108,1);
+}
+
+void RedSite(){
+  Arm(
+}
+
+
 
 void Veiw(int FR, int LR, int TB, int MG){ // 시리얼값 보기
   Serial.print("앞뒤 : ");  
@@ -59,8 +59,24 @@ void Veiw(int FR, int LR, int TB, int MG){ // 시리얼값 보기
   Serial.println(LR);
   Serial.print("상하 : ");
   Serial.println(TB);
- 
   Serial.print("자석 : ");
   Serial.println(MG);
 }
   
+  
+void loop(){
+
+
+  if(Serial.available()){
+    int i = Serial.parseInt();
+  
+  if(i == 1){
+    Start();
+  }else if(i == 0){    
+    Grap();
+  }
+  }
+    
+    
+   
+}

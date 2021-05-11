@@ -27,12 +27,15 @@ void loop(){
     
     if(state1>=10 && state1<=170){
       myservo1.write(state1);
+      delay(100);
     }
     if(state2>=20 && state2<=140){
       myservo2.write(state2);
+      delay(100);
     }
     if(state3>=100 && state3<=170){
       myservo3.write(state3);
+      delay(100);
     }
 
   }   

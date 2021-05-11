@@ -8,7 +8,7 @@ char RGB;
 const int dir = 5; //shared direction pin
 const int step1 = 6; //step pin motor 1 
 
-const int speed = 2000; //속도 제어
+const int speed = 2500; //속도 제어
 
 void setup() {
 //  Wire.begin(0x8);        //slve with address 8
@@ -17,7 +17,7 @@ void setup() {
   
   pinMode(dir,OUTPUT); 
   pinMode(step1,OUTPUT); //configure pins
-  digitalWrite(dir,0);
+  digitalWrite(dir,1);
    
    if (tcs.begin()) {  //연결 인식
     Serial.println("Found sensor");
@@ -54,24 +54,33 @@ void motor(){   //모터 동작
   delayMicroseconds(speed);
 }
 void RGBSensor(){
-  delay(2000);
+  delay(1500);
   uint16_t clear, red, green, blue; //unit16_t = unsigned short int 타입
   tcs.getRawData(&red, &green, &blue, &clear);  //색상 감지 센서 데이터값 받기
   
-  int r = map(red, 0, 21504, 0, 4096);          //센서값 수치
-  int g = map(green, 0, 21504, 0, 3500);
-  int b = map(blue, 0, 21504, 0, 4096);
+  int r = map(red, 0, 21504, 0, 3900);    //센서값 수치, 최대값 4096
+  int g = map(green, 0, 21504, 0, 3100);
+  int b = map(blue, 0, 21504, 0, 3600);
   
   Serial.print("R:\t"); Serial.print(r);      //시리얼 모니터 RGB값 출력
   Serial.print("\tG:\t"); Serial.print(g);
   Serial.print("\tB:"); Serial.println(b);
+
+   
+  if(r > g && r > b){
+    Serial.println("RED");
+  }if(g > r && g > b){
+    Serial.println("GREEN");
+  }if(b > r && b > g){
+    Serial.println("BLUE");
+  }
 }
 
 void loop() {
 
   RGBSensor();
   
-  for(int i=0; i<430;i++){
+  for(int i=0; i<410;i++){
     motor();
   }
 }
