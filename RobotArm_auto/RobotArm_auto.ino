@@ -1,18 +1,18 @@
 #include <Servo.h>
 
+#define servoPin1 9
+#define servoPin2 10
+#define servoPin3 11
+
 Servo myservo1, myservo2, myservo3; //객체 생성
 
 int Electromagnet = 2;
 
 void setup(){
   
-  myservo1.attach(7);   //핀 설정
-  myservo2.attach(8);
-  myservo3.attach(9);
-
-  myservo1.write(80);   // 앞뒤 20~140
-  myservo2.write(30);   // 좌우 0~180초기값 설정
-  myservo3.write(115);  // 상하 100~170
+  myservo1.attach(servoPin1);   //핀 설정
+  myservo2.attach(servoPin2);
+  myservo3.attach(servoPin3);
 
   pinMode(Electromagnet, OUTPUT);
 
@@ -21,11 +21,11 @@ void setup(){
 
 void Arm(int FR, int LR, int TB, int MG){  //로봇팔, 전자석
   myservo1.write(FR);
-  delay (150);
+  delay (500);
   myservo2.write(LR);
-  delay (150);
+  delay (500);
   myservo3.write(TB);
-  delay (1000);
+  delay (500);
 
   if(MG == 1){   //마그넷
       digitalWrite(Electromagnet, HIGH);
@@ -39,15 +39,15 @@ void Arm(int FR, int LR, int TB, int MG){  //로봇팔, 전자석
 
 void Start()
 {
-  Arm(80,30,115,1);
+  Arm(70,170,120,1);
 }
 
 void Grap(){
-  Arm(80,30,108,1);
+  Arm(55,30,108,1);
 }
 
 void RedSite(){
-  Arm(
+  Arm(110,30,100,0);
 }
 
 
@@ -66,17 +66,20 @@ void Veiw(int FR, int LR, int TB, int MG){ // 시리얼값 보기
   
 void loop(){
 
-
+  Start();
+  delay(100);
+  Grap();
+  RedSite();
+  
+  
   if(Serial.available()){
     int i = Serial.parseInt();
-  
-  if(i == 1){
+    if(i == 1){
     Start();
   }else if(i == 0){    
     Grap();
+    }
   }
-  }
-    
-    
-   
+  
+
 }
