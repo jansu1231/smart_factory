@@ -16,12 +16,12 @@ void setup(){
   myservo3.attach(servoPin3);
 
      // 앞뒤 20~140
-     // 좌우 0~180초기값 설정
+     // 좌우 0~180
     // 상하 100~170
 
   pinMode(Electromagnet, OUTPUT);
 
-  Serial.begin(9600);
+  Serial.begin(19200);
 }
 
 void Veiw(int FR, int LR, int TB, int MG){ // 시리얼값 보기
@@ -39,8 +39,8 @@ void Veiw(int FR, int LR, int TB, int MG){ // 시리얼값 보기
 
 void loop(){
 
-  if(Serial.available()){   //시리얼 통신이 들어오면
-    delay(100);
+  while(Serial.available()){   //시리얼 통신이 들어오면
+  
     
     int state1 = Serial.parseInt();//시리얼통신으로 입력 받기
     int state2 = Serial.parseInt();
