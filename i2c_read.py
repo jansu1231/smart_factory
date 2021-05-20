@@ -1,29 +1,62 @@
 from smbus import SMBus
 import time
 
+import serial
+import pymysql
+
+
+#db connect
+db = pymysql.connect( 
+    host="localhost",
+    user="root",
+    password="1234",
+    db="smart_factory",
+    charset='utf8')
+print(type(db))
+
+cursor = db.cursor()
+print(type(cursor))
+
+call = db.fetchall()
+
+
+
+
+
+
 addr = 0x8 # bus address
 sensor = 0x29
 bus = SMBus(1) # indicates /dev/ic2-1
+R,G,B = 0
 
-numb = 1
 
+      
+while True:
+    
+    time.sleep(3)
+    
+    data = bus.read_byte(addr)
+    
+    print(data)
+    
+    sql = "INSERT INTO color (RED,GREEN,BLUE,TOTAL) VALUES (%s,%s,%s,%s)"
+    
+    if data == 82:
+        R+=1
+    elif data == 71:
+        G+=1
+    elif data == 66:
+        B+=1
+        
+    
 
-print ( "1 for START or 0 STOP")
+    cursor.execute(sql,data)
 
-while 1:
+    for x in call:
+    print (x)
+        
+    db.commit()
     
-    conveyor = input(">>>>   ")
-    
-    if conveyor == "1":
-        bus.write_byte(addr,1)
-    elif conveyor == "2":
-        bus.write_byte(addr,2)
-    
-    time.sleep(5)
-    
-    result = bus.read_byte(addr)
-    
-    print(chr(result))
-    
+
     
     
