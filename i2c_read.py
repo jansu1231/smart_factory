@@ -1,34 +1,25 @@
 from smbus import SMBus
 import time
-
-import serial
 import pymysql
 
+db = pymysql.connect(user='root',
+                     password='1234',
+                     host='localhost',
+                     db='smart_factory',
+                     charset = 'utf8')
 
-#db connect
-db = pymysql.connect( 
-    host="localhost",
-    user="root",
-    password="1234",
-    db="smart_factory",
-    charset='utf8')
-print(type(db))
+cursor = db.cursor()  #dbconnect
 
-cursor = db.cursor()
-print(type(cursor))
-
-call = db.fetchall()
-
-
-
-
-
+#table = "CREATE TABLE RGBdata (RED int(100),GREEN int(100), BLUE int(100), TOTAL int(100))" #table create
+sql = "INSERT INTO RGBdata(RED, GREEN, BLUE, TOTAL)VALUES(%s,%s,%s,%s)"  #table insert
 
 addr = 0x8 # bus address
 sensor = 0x29
 bus = SMBus(1) # indicates /dev/ic2-1
-R,G,B = 0
-
+r = 0
+g = 0
+b = 0
+t = 0
 
       
 while True:
@@ -42,21 +33,14 @@ while True:
     sql = "INSERT INTO color (RED,GREEN,BLUE,TOTAL) VALUES (%s,%s,%s,%s)"
     
     if data == 82:
-        R+=1
+        r += 1
     elif data == 71:
-        G+=1
+        g += 1
     elif data == 66:
-        B+=1
-        
-    
+        b += 1
 
-    cursor.execute(sql,data)
-
-    for x in call:
-    print (x)
+    t += r+g+b
         
+    cursor.execute(sql,(r,g,b,t))  #insert data
+
     db.commit()
-    
-
-    
-    
