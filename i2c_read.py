@@ -10,8 +10,10 @@ db = pymysql.connect(user='root',
 
 cursor = db.cursor()  #dbconnect
 
-#table = "CREATE TABLE RGBdata (RED int(100),GREEN int(100), BLUE int(100), TOTAL int(100))" #table create
+init = "TRUNCATE TABLE RGBdata"  #initializtion
 sql = "INSERT INTO RGBdata(RED, GREEN, BLUE, TOTAL)VALUES(%s,%s,%s,%s)"  #table insert
+storage = "INSERT INTO storage(RED,GREEN,BLUE,TOTAL) SELECT * FROM RGBdata ORDER BY total desc limit 1" #stack last data
+
 
 addr = 0x8 # bus address
 sensor = 0x29
@@ -30,8 +32,6 @@ while True:
     
     print(data)
     
-    sql = "INSERT INTO color (RED,GREEN,BLUE,TOTAL) VALUES (%s,%s,%s,%s)"
-    
     if data == 82:
         r += 1
     elif data == 71:
@@ -40,7 +40,11 @@ while True:
         b += 1
 
     t += r+g+b
-        
+     
+    cursor.execute(init) 
     cursor.execute(sql,(r,g,b,t))  #insert data
 
     db.commit()
+    
+    
+    #cursor.execute(storage)
