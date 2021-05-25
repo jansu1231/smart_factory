@@ -23,28 +23,34 @@ g = 0
 b = 0
 t = 0
 
-      
-while True:
-    
-    time.sleep(3)
-    
-    data = bus.read_byte(addr)
-    
-    print(data)
-    
-    if data == 82:
-        r += 1
-    elif data == 71:
-        g += 1
-    elif data == 66:
-        b += 1
 
-    t += r+g+b
-     
-    cursor.execute(init) 
-    cursor.execute(sql,(r,g,b,t))  #insert data
 
+
+try :
+    while True:
+    
+        time.sleep(3)
+        
+        data = bus.read_byte(addr)
+        
+        print(data)  #Show sensor data
+        
+        if data == 82:
+            r += 1
+        elif data == 71:
+            g += 1
+        elif data == 66:
+            b += 1
+
+        t = r+g+b
+         
+        cursor.execute(init) 
+        cursor.execute(sql,(r,g,b,t))  #insert data
+        
+        db.commit()
+        
+except KeyboardInterrupt:
+
+    cursor.execute(storage)
     db.commit()
     
-    
-    #cursor.execute(storage)
