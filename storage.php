@@ -2,8 +2,22 @@
 <html>
 <body>
 
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
 <h1 style="text-align:center;">Storage</h1>
-<table style = "width:100%">
+
+<div class="table_layout">
+<table style = width:100% border = "1">
+<colgroup>
+<col width="10%">
+<col width="15%">
+<col width="15%">
+<col width="15%">
+<col width="15%">
+<col width="30%">
+</colgroup>
 
 <?php
 $conn = mysqli_connect("localhost","root","1234","smart_factory");
@@ -32,5 +46,7 @@ mysqli_close($conn);
 ?>
 
 </table>
+</div>
+<a href ="main.html">Back</a> <a href ="rgb.php">LIVE</a>
 </body>
 </html>
