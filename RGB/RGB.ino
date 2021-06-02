@@ -7,7 +7,7 @@ char RGB;
 
 void setup() {
   Wire.begin(0x8);        //slve with address 8
-  Wire.onReceive(receiveEvent); //입력받을 경우
+//  Wire.onReceive(receiveEvent); //입력받을 경우
   Wire.onRequest(requestEvent);   //요청받은 값 전송
 
    
@@ -22,20 +22,19 @@ void setup() {
 }
 
 
-
 void requestEvent(){
   Wire.write(RGB);
 }
 
-void receiveEvent(int s){
-  while(Wire.available()){
-    s = Wire.read();
-    int test = 0; 
-    Serial.print(test);// 받은 것 확인  
-  }
-}
+//void receiveEvent(int s){
+//  while(Wire.available()){
+//    s = Wire.read();
+//    int test = 0; 
+//    Serial.print(test);// 받은 것 확인  
+//  }
+//}
 
-void RGBSensor(){
+void RGBSensor(){ 
   delay(1500);
   uint16_t clear, red, green, blue; //unit16_t = unsigned short int 타입
   tcs.getRawData(&red, &green, &blue, &clear);  //색상 감지 센서 데이터값 받기
@@ -51,15 +50,20 @@ void RGBSensor(){
    
   if(r > g && r > b){
     Serial.println("RED");
-  }if(g > r && g > b){
+    RGB = 'R';
+  }else if(g > r && g > b){
     Serial.println("GREEN");
-  }if(b > r && b > g){
+    RGB = 'G';
+  }else if(b > r && b > g){
     Serial.println("BLUE");
+    RGB = 'B';
   }
+
+  
 }
 
 void loop() {
 
   RGBSensor();
-  
+  requestEvent();
 }

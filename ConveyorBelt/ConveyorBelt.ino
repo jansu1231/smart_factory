@@ -78,9 +78,9 @@ void RGBSensor(){
 
 void loop() {
 
-  RGBSensor();
+  //RGBSensor();
   
-  for(int i=0; i<410;i++){
+  //for(int i=0; i<410;i++){
     motor();
-  }
+  //}
 }
