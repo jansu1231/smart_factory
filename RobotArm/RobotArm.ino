@@ -34,36 +34,34 @@ void Veiw(int FR, int TB, int LR, int MG) { // 시리얼값 보기
   Serial.println(MG);
 }
 
+void Arm(int FR, int TB, int LR, int MG){  //Arm Control
+  myservo1.write(FR);
+  delay (500);
+  myservo2.write(TB);
+  delay (500);//
+  myservo3.write(LR);
+  delay (500);
+  
+   if (MG==1){
+    digitalWrite(Electromagnet, HIGH);
+    delay(150);
+  }else{
+    digitalWrite(Electromagnet, LOW);
+    delay(150);
+  }
+}
+
+
 
 void loop() {
 
   while (Serial.available()) { 
-
-
     int state1 = Serial.parseInt();//시리얼통신으로 입력 받기
     int state2 = Serial.parseInt();
     int state3 = Serial.parseInt();
     int input = Serial.parseInt();
-
     Veiw(state1, state2, state3, input);
-
-    myservo1.write(state1);
-    delay(1000);
-    myservo2.write(state2);
-    delay(1000);
-    myservo3.write(state3);
-    delay(1000);
-
-
-    if (input == 1) { //마그넷
-      digitalWrite(Electromagnet, HIGH);
-      delay(150);
-    }
-    else {
-      digitalWrite(Electromagnet, LOW);
-      delay(150);
-    }
-
+    
+    Arm(state1,state2,state3,input);
   }
-
 }

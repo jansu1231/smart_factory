@@ -4,7 +4,7 @@
 #define servoPin2 10
 #define servoPin3 11
 
-Servo myservo1, myservo2, myservo3; //객체 생성
+Servo myservo1, myservo2, myservo3;
 int Electromagnet = 2;
 
 typedef struct {
@@ -13,26 +13,22 @@ typedef struct {
   int LR;
 }coo;
 
-coo act[4][3] = {{{30,170,180},{75,110,180},{30,110,0}},
-                {{120,123,5},{112,110,3},{105,98,2}},
-                {{112,110,3},{110,110,22},{113,113,40}},
-                {{105,98,2},{105,97,24},{105,100,44}}};
+coo act[4][3] = {{{30,170,180},{75,110,180},{30,110,0}},    //Coordinates
+                {{120,127,5},{112,110,3},{105,98,2}},
+                {{120,128,22},{110,110,22},{105,97,24}},
+                {{126,126,37},{113,115,41},{106,104,44}}};
                    
 void setup(){
-  myservo1.attach(servoPin1);   //핀 설정
+  myservo1.attach(servoPin1);   //Pin Settings
   myservo2.attach(servoPin2);
   myservo3.attach(servoPin3);
   pinMode(Electromagnet, OUTPUT);
-
-
+  Arm_init();
   
-
   Serial.begin(9600);
 }
 
-
-
-void Arm(int FR, int TB, int LR){  //로봇팔, 전자석
+void Arm(int FR, int TB, int LR){  //Arm Control
   myservo1.write(FR);
   delay (500);
   myservo2.write(TB);
@@ -40,33 +36,42 @@ void Arm(int FR, int TB, int LR){  //로봇팔, 전자석
   myservo3.write(LR);
   delay (500);
 }
+void Magnet(int MG){
+  if (MG==1){
+    digitalWrite(Electromagnet, HIGH);
+    delay(150);
+  }else{
+    digitalWrite(Electromagnet, LOW);
+    delay(150);
+  }
+}
 
-void Start()
-{
-  Arm(30,170,180);
+void Arm_init(){
+  Arm(act[0][0].FR, act[0][0].TB, act[0][0].LR);
 }
-void Grap(){
-  Arm(75,110,180);
+void Arm_grab(){
+  Arm(act[0][1].FR, act[0][1].TB, act[0][1].LR);
 }
 
-void Veiw(int FR, int TB, int LR){ // 시리얼값 보기
-  Serial.print("앞뒤 : ");  
-  Serial.println(FR);
-  Serial.print("좌우 : ");
-  Serial.println(TB);
-  Serial.print("상하 : ");
-  Serial.println(LR);
+void Site(){
+  for (int i=1; i<4;i++){
+    for(int j=0; j<3;j++){
+      if (act[i][j].FR != 0){
+      Arm_grab();
+      Magnet(1);
+      delay(500);
+      Arm(act[0][0].FR, act[i][j].TB, act[i][j].LR);
+      delay(500);
+      Arm(act[i][j].FR, act[i][j].TB, act[i][j].LR);
+      delay(500);
+      Magnet(0);    
+      Arm_init();
+      delay(1000);
+      }
+    }
+  }
 }
-  
   
 void loop(){
-
-  Arm(act[0][0].FR,act[0][0].TB,act[0][0].LR);
-  delay(1000);
-  Arm(act[0][1].FR,act[0][1].TB,act[0][1].LR);
-  delay(1000);
-  Arm(act[0][0].FR,act[3][2].TB,act[3][2].LR);
-  delay(1000);
-  Arm(act[3][2].FR,act[3][2].TB,act[3][2].LR);
-  delay(1000);
+  Site();
 }
