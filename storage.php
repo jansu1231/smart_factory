@@ -4,6 +4,7 @@
 
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="60;url=storage.php">
 </head>
 
 <h1 style="text-align:center;">Storage</h1>
@@ -47,6 +48,24 @@ mysqli_close($conn);
 
 </table>
 </div>
-<a href ="main.html">Back</a> <a href ="rgb.php">LIVE</a>
+<style>
+.button {
+background-color:black;
+border: none;
+color: white;
+padding: 15px 30px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+margin: 4px 2px;
+cursor: pointer;
+float: right;
+}
+</style>
+<div align="center">
+<button><a href ="main.html">Back</a></button> 
+<button><a href ="rgb.php">LIVE</a></button>
+</div>
 </body>
 </html>

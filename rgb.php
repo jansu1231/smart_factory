@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+<title>LIVE</title>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="refresh" content="5;url=rgb.php">
@@ -38,9 +38,6 @@ echo "</tr>";
 
 }
 mysqli_close($conn);
-
-
-
 ?>
 </table>
 </div>
@@ -59,8 +56,9 @@ cursor: pointer;
 float: right;
 }
 </style>
-
+<div align="center">
 <button><a href ="main.html">Back</a></button> 
 <button><a href ="storage.php">DATA</a></button>
+</div>
 </body>
 </html>
