@@ -10,31 +10,32 @@
 <h1 style="text-align:center;">RGB Data</h1>
 
 <div class="tabel_layout">
-<table style="width:100%" border="1">
+<table style="width:50%" border="1"align="center">
 <colgroup>
 <col width="25%">
 <col width="25%">
-<col width="25%">
-<col width="25%">
+<!--<col width="25%">
+<col width="25%">-->
 </colgroup>
 
 <?php
 $conn = mysqli_connect("localhost","root","1234","smart_factory");
-$result = mysqli_query($conn,"SELECT * FROM RGBdata");
+$result = mysqli_query($conn,"SELECT * FROM test");
 
-echo "<th style=color:Red;> RED </th>";
-echo "<th style=color:Green;> GREEN </th>";
-echo "<th style=color:Blue;> BLUE </th>";
-echo "<th> TOTAL </th>";
+echo "<th> COLOR </th>";
+echo "<th> EA </th>";
+//echo "<tr style=color:Blue;> BLUE </tr>";
+//echo "<tr> TOTAL </tr>";
 
 
 while($row = mysqli_fetch_array($result)){
 echo "<tr>";
 echo "<th>" . $row[0] . "</th>";
 echo "<th>" . $row[1] . "</th>";
-echo "<th>" . $row[2] . "</th>";
-echo "<th>" . $row[3] . "</th>";
 echo "</tr>";
+//echo "<th>" . $row[2] . "</th>";
+//echo "<th>" . $row[3] . "</th>";
+//echo "</tr>";
 
 }
 mysqli_close($conn);
