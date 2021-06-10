@@ -17,13 +17,13 @@ typedef struct{
 }coo;
 
 int RGB[3]={0,0,0};
-coo act[4][3] = {{{30,170,180},{72,128,180},{30,110,0}},    //Coordinates
+coo act[4][3] = {{{30,170,180},{72,128,180},{30,110,0}},    //좌표 값
                 {{116,140,4},{107,128,3},{99,116,2}},
                 {{117,141,22},{108,129,23},{100,118,24}},
                 {{119,143,37},{108,131,41},{100,119,45}}};   
 
 void setup() {
-  Wire.begin(0x9);        //slve with address 9
+  Wire.begin(0x9);                //slve 주소 9
   Wire.onReceive(receiveEvent);   //i2c
   myservo1.attach(servoPin1);     //Pin Settings
   myservo2.attach(servoPin2);
@@ -37,12 +37,12 @@ void setup() {
 
 void receiveEvent(int co) {    //i2c
   while (Wire.available()) {
-    color = Wire.read(); //받은값 읽기
-    Serial.println(color);// 받은 것 확인
+    color = Wire.read();      //받은 값 읽기
+    Serial.println(color);    //받은 값 확인
   }
 }
 
-void Arm(int FR, int TB, int LR) { //Arm Control
+void Arm(int FR, int TB, int LR) { //팔 컨트롤
   myservo1.write(FR);
   delay (1000); 
   myservo2.write(TB);
@@ -50,7 +50,7 @@ void Arm(int FR, int TB, int LR) { //Arm Control
   myservo3.write(LR);
   delay (1000); 
 }
-void Magnet(int MG) {   //Magnet Control
+void Magnet(int MG) {  //전자석 컨트롤
   if (MG == 1) {
     digitalWrite(Electromagnet, HIGH);
     delay(150);
@@ -60,17 +60,17 @@ void Magnet(int MG) {   //Magnet Control
   }
 }
 
-void Arm_init(){
+void Arm_init(){      //팔 초기 좌표
   Arm(act[0][0].FR, act[0][0].TB, act[0][0].LR);
 }
-void Arm_grab(){
+void Arm_grab(){                  //팔 물건 집음
   Arm(act[0][1].FR, act[0][1].TB, act[0][1].LR);
   Magnet(1);
 }
 
-void Site(int sort){
+void Site(int sort){  //색상 좌표 분류
   
-  if(sort==1){
+  if(sort==1){        //빨강 위치
     Serial.println("r");
     Arm(act[0][0].FR, act[sort][RGB[0]].TB, act[sort][RGB[0]].LR);
     delay(500);
@@ -83,7 +83,7 @@ void Site(int sort){
       RGB[0]=0;
     }
   }
-  else if(sort==2){
+  else if(sort==2){   //초록 위치
     Serial.println("g");
     Arm(act[0][0].FR, act[sort][RGB[1]].TB, act[sort][RGB[1]].LR);
     delay(500);
@@ -96,7 +96,7 @@ void Site(int sort){
     }
   }
   
-  else if(sort==3){
+  else if(sort==3){   //파랑 위치
     Serial.println("b");
     Arm(act[0][0].FR, act[sort][RGB[2]].TB, act[sort][RGB[2]].LR);
     delay(500);
