@@ -17,10 +17,10 @@ typedef struct{
 }coo;
 
 int RGB[3]={0,0,0};
-coo act[4][3] = {{{30,170,180},{72,128,180},{30,110,0}},    //좌표 값
-                {{116,140,4},{107,128,3},{99,116,2}},
-                {{117,141,22},{108,129,23},{100,118,24}},
-                {{119,143,37},{108,131,41},{100,119,45}}};   
+coo act[4][3] = {{{90,170,180},{107,130,180},{90,110,0}},    //좌표값
+                {{148,144,5},{138,133,5},{131,120,4}},
+                {{149,145,22},{138,131,23},{131,120,24}},
+                {{150,147,37},{141,135,41},{133,123,43}}};
 
 void setup() {
   Wire.begin(0x9);                //slve 주소 9
@@ -53,10 +53,10 @@ void Arm(int FR, int TB, int LR) { //팔 컨트롤
 void Magnet(int MG) {  //전자석 컨트롤
   if (MG == 1) {
     digitalWrite(Electromagnet, HIGH);
-    delay(150);
+    delay(2000);
   } else {
     digitalWrite(Electromagnet, LOW);
-    delay(150);
+    delay(2000);
   }
 }
 
@@ -73,12 +73,12 @@ void Site(int sort){  //색상 좌표 분류
   if(sort==1){        //빨강 위치
     Serial.println("r");
     Arm(act[0][0].FR, act[sort][RGB[0]].TB, act[sort][RGB[0]].LR);
-    delay(500);
+    delay(1000);
     Arm(act[sort][RGB[0]].FR, act[sort][RGB[0]].TB, act[sort][RGB[0]].LR);
-    delay(500); 
+    delay(1000); 
     RGB[0]++;
     
-    if(RGB[0]==2)
+    if(RGB[0]==3)
     {
       RGB[0]=0;
     }
@@ -86,11 +86,11 @@ void Site(int sort){  //색상 좌표 분류
   else if(sort==2){   //초록 위치
     Serial.println("g");
     Arm(act[0][0].FR, act[sort][RGB[1]].TB, act[sort][RGB[1]].LR);
-    delay(500);
+    delay(1000);
     Arm(act[sort][RGB[1]].FR, act[sort][RGB[1]].TB, act[sort][RGB[1]].LR);
-    delay(500);
+    delay(1000);
     RGB[1]++;
-    if(RGB[1]==2)
+    if(RGB[1]==3)
     {
       RGB[1]=0;
     }
@@ -99,11 +99,11 @@ void Site(int sort){  //색상 좌표 분류
   else if(sort==3){   //파랑 위치
     Serial.println("b");
     Arm(act[0][0].FR, act[sort][RGB[2]].TB, act[sort][RGB[2]].LR);
-    delay(500);
+    delay(1000);
     Arm(act[sort][RGB[2]].FR, act[sort][RGB[2]].TB, act[sort][RGB[2]].LR);
-    delay(500);
+    delay(1000);
     RGB[2]++;
-    if(RGB[2]==2)
+    if(RGB[2]==3)
     {
       RGB[2]=0;
     }
@@ -113,10 +113,15 @@ void Site(int sort){  //색상 좌표 분류
 
 void loop() {
   
-  if(color !=0){
+  if(color !=0 && color != 4){
     Arm_grab();
     Site(color);
     Arm_init();
     color=0;
+  }
+  if(color == 4){
+    for(int i=0;i<4;i++){
+      RGB[i]=0;
+    }
   }
 }

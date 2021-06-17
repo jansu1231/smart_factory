@@ -14,7 +14,7 @@ void setup() {
   myservo2.attach(servoPin2);   //상,하 100~170
   myservo3.attach(servoPin3);   //좌,우 0~180
 
-  myservo1.write(30);
+  myservo1.write(90);
   myservo2.write(170);
   myservo3.write(180);
   pinMode(Electromagnet, OUTPUT);
@@ -36,18 +36,18 @@ void Veiw(int FR, int TB, int LR, int MG) { // 시리얼값 보기
 
 void Arm(int FR, int TB, int LR, int MG){  //Arm Control
   myservo1.write(FR);
-  delay (500);
+  delay (1000);
   myservo2.write(TB);
-  delay (500);//
+  delay (1000);//
   myservo3.write(LR);
-  delay (500);
+  delay (1000);
   
    if (MG==1){
     digitalWrite(Electromagnet, HIGH);
-    delay(150);
+    delay(2000);
   }else{
     digitalWrite(Electromagnet, LOW);
-    delay(150);
+    delay(2000);
   }
 }
 

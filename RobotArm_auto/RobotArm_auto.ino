@@ -13,10 +13,10 @@ typedef struct {
   int LR;
 }coo;
 
-coo act[4][3] = {{{30,170,180},{72,128,180},{30,110,0}},    //Coordinates
-                {{116,140,4},{107,128,3},{99,116,2}},
-                {{117,141,22},{108,129,23},{100,118,24}},
-                {{119,143,37},{108,131,41},{100,119,45}}};
+coo act[4][3] = {{{90,170,180},{107,130,180},{90,110,0}},    //좌표값
+                {{148,144,5},{138,133,5},{131,120,4}},
+                {{149,145,22},{138,131,23},{131,120,24}},
+                {{150,147,37},{141,135,41},{133,123,43}}};
                    
 void setup(){
   myservo1.attach(servoPin1);   //Pin Settings
@@ -30,19 +30,19 @@ void setup(){
 
 void Arm(int FR, int TB, int LR){  //Arm Control
   myservo1.write(FR);
-  delay (500);
+  delay (1000);
   myservo2.write(TB);
-  delay (500);//
+  delay (1000);//
   myservo3.write(LR);
-  delay (500);
+  delay (1000);
 }
 void Magnet(int MG){
   if (MG==1){
     digitalWrite(Electromagnet, HIGH);
-    delay(150);
+    delay(3000);
   }else{
     digitalWrite(Electromagnet, LOW);
-    delay(150);
+    delay(3000);
   }
 }
 
@@ -59,14 +59,14 @@ void Site(){
       if (act[i][j].FR != 0){
       Arm_grab();
       Magnet(1);
-      delay(500);
       Arm(act[0][0].FR, act[i][j].TB, act[i][j].LR);
-      delay(500);
-      Arm(act[i][j].FR, act[i][j].TB, act[i][j].LR);
-      delay(500);
-      Magnet(0);    
-      Arm_init();
       delay(1000);
+      Arm(act[i][j].FR, act[i][j].TB, act[i][j].LR);
+      delay(1000);
+      Magnet(0);
+        
+      Arm_init();
+      
       }
     }
   }
